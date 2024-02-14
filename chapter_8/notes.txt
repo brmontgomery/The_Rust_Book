@@ -1,0 +1,99 @@
+8.1 Vectors
+to create a new vector, do the following:
+let v: Vec<i32> = Vec::new();
+
+Vectors need a type annotation likein C++
+vec! macro will create a vector with the correct type for the values given
+let v = vec![1, 2, 3];
+
+vector functions:
+push() - pushes to the back
+get(100) - returns the value of the item at the iterator number passed to it.
+
+can read elements with get(i32) or &v[2]
+If you get a value froma vector, the vector becomes imutable.
+
+if iterating over a vector *it will reference the value in the vector slot at the iterator's position.
+
+You can use an enum to put multiple types within a vector as such:
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
+}
+
+let row = vec![
+    SpreadsheetCell::Int(3),
+    SpreadsheetCell::Text(String::from("blue")),
+    SpreadsheetCell::Float(10.12),
+];
+
+    when vector goes out of scope, all of its elements are dropped.
+
+8.2 Strings
+Create a string with
+let mut s = String::new();
+let s = String::from("initial contents");
+let s = "initial contents".to_string();
+let s = data.to_string();
+let data = "initial contents";
+
+Update a string with push() or push_str (str slice, does not take ownership)
+
+Concatenate with +
+let s3 = s1 + &s2; // note s1 has been moved here and can no longer be used
+or with format!
+ let s = format!("{s1}-{s2}-{s3}");
+
+ cannot index into a string
+ can use slices but that can cause crashes.
+ let s = &hello[0..4];
+
+can do this:
+for c in "Зд".chars() {
+    println!("{c}");
+}
+
+8.3 Hash Maps
+HashMap<K, V> stores a mapping of keys of type K to values of type V using a hashing function, which determines how it places these keys and values into memory
+you could keep track of each team’s score in a hash map in which each key is a team’s name and the values are each team’s score
+
+creating a HashMap
+let mut scores = HashMap::new();
+
+adding to a hashmap
+scores.insert(String::from("Blue"), 10);
+
+getting from a hashmap
+let team_name = String::from("Blue");
+let score = scores.get(&team_name).copied().unwrap_or(0);
+
+or 
+for (key, value) in &scores {
+    println!("{key}: {value}");
+}
+
+For owned values like String, the values will be moved and the hash map will be the owner of those value
+let field_name = String::from("Favorite color");
+let field_value = String::from("Blue");
+
+let mut map = HashMap::new();
+map.insert(field_name, field_value);
+// field_name and field_value are invalid at this point, try using them and
+// see what compiler error you get!
+
+overwriting a value in the hashmap
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Blue"), 25);
+
+insert only if there is not already a value
+scores.insert(String::from("Blue"), 10);
+scores.entry(String::from("Blue")).or_insert(50);
+
+update value based on old value
+for word in text.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+
+Hashmaps use SipHash by default. Notthe fastestbut good security. Only change if your profiling shows the code is slow.

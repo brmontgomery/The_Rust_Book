@@ -1,0 +1,75 @@
+Chapter 7
+Summary
+
+Rust Organization hierarchy
+Packages: A Cargo feature that lets you build, test, and share crates
+Crates: A tree of modules that produces a library or executable
+Modules and use: Let you control the organization, scope, and privacy of paths
+Paths: A way of naming an item, such as a struct, function, or module
+
+7.1 Packages and Crates
+Smallest amount of code Rust compiler considers at one time
+-Crates can contain modules, and the modules may be defined in other files that get compiled with the crate
+
+Binary crates are programs you can compile to an executable that you can run
+-Have a main function
+
+Library crates don’t have a main function, and they don’t compile to an executable
+-definesfunctionality intended to be shared across multiple projects
+
+Crate root is where compiling starts
+-is root module
+Package is bundle 1 or more crates that provides functionality
+-as many binary crates as needed
+-only 1 lib crate
+
+7.2 Modules, Scope, privacy
+Start from the crate root - compiler looks for crate root files first (lib.rs or main.rs)
+Declaring Modules 
+- mod module_name
+- compiler will look for code inline, in the .rs file of the module's name, in the mod.rs file in the folder with the module's name
+Declaring submodules 
+- mod module_name in the module file
+- same look for code as above except one folder lower
+Paths to Code in Modules
+-Once a module is in a crate, you can access it using the code file path (using :: to drill down through the code)
+Private vs. Public
+-code in module is pricate by default
+-can mke public using pub before their declarations.
+The use keyword
+-use acts like using in C++
+
+7.3 Absoulte and Relative paths
+// Absolute path
+crate::front_of_house::hosting::add_to_waitlist();
+
+// Relative path
+front_of_house::hosting::add_to_waitlist();
+
+Using super::beforethe path allows us to access a part of the parent module from a child module.
+
+Pub works like public: in C++ for structs and enums, butcan also work for the whole struct or enum if put before the declaration.
+If an enum is puclic, so are all of its variants.
+
+7.4 use
+You can use the "use" keyword like using in C++
+You can use pub use in a module to export that use to whatever code imports the module.
+
+we can also import packages by adding themin the Cargo.toml then specifying wewant to use them with the use command.
+
+We can do nested use statements like.
+use std::{cmp::Ordering, io};
+use std::io::{self, Write};
+
+The * operator at the end of a path brings into public all item at the end of the previous path
+use std::collections::*;
+
+7.5 Separating Modules into Different Files
+mod does not need to be added to every file within a crate that the moduleis used in.
+mod is directory location dependent. 
+
+
+
+
+
+

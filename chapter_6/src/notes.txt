@@ -1,0 +1,13 @@
+Enums
+-should be used when you have data that can only be one or the other at any given time. 
+-enum members can be of basically any data type
+-enum members can be different data types from other members
+
+Option takes the place of null or not-null
+
+Function templates are implemented for enums and possibly other things
+
+Match is basically switch except you can nest variables within your match variables
+_ = default
+
+if let is like a match statement for one option and a default option
